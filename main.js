@@ -21,6 +21,43 @@ var h = canvas.height;
 
 
 
+var star = function() {
+    this.x = Math.random() * 750;
+    this.y = Math.random() * 600;
+    this.speed = Math.random() * 3;
+    this.radio = Math.random() * 2;
+}
+
+star.prototype.move = function() {
+    if (this.x <= 1000)
+        this.x += this.speed;
+    else
+        this.x = 0;
+}
+
+star.prototype.render = function() {
+    ctx.fillStyle = 'white';
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radio, 0, 2 * Math.PI, true);
+    ctx.closePath();
+
+    ctx.fill();
+    this.move();
+}
+var stars = [];
+for (var i = 0; i < 300; i++) {
+    stars.push(new star());
+}
+
+function drawStars() {
+    stars.forEach(function(star) {
+        star.render();
+    });
+}
+
+
+
 
 
 var spaceImg = new Image();
@@ -62,7 +99,7 @@ var redraw = function() {
 
     // paint bg
     drawSpace();
-
+    drawStars();
     ctx.translate(w / 2, h / 2);
 
     // draw earth
@@ -99,67 +136,3 @@ function getAstronauts() {
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var canvas = document.getElementById('mycanvas');
-// var ctx = canvas.getContext('2d');
-// var w = canvas.width;
-// var h = canvas.height;
-//
-//
-//
-// var spaceImg = new Image();
-// spaceImg.src = "img/space.png";
-//
-// var earthImg = new Image();
-// earthImg.src = "img/earth.png";
-//
-//
-// function drawSpace() {
-//     ctx.drawImage(spaceImg, 0, 0);
-// }
-// function drawEarth(){
-//     ctx.drawImage(earthImg,0,0)
-// }
-//
-//
-//
-//
-// function getAstronauts() {
-//     $.ajax({
-//         url: "http://api.open-notify.org/astros.json",
-//         success: function(res) {
-//             astronauts = res.people;
-//             for (var i = 0; i < astronauts.length; i++) {}
-//         }
-//     });
-// }
